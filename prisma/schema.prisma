@@ -20,5 +20,6 @@ model User {
   email             String               @unique // unique email
   password          String
   score             Int                  @default(0)
-  createdAt DateTime @default(now())
+  createdAt         DateTime             @default(now())
 }
+
