@@ -1,6 +1,8 @@
 import express from "express";
 import dotenv from 'dotenv';
 import userRoutes from "./src/routes/userRoutes.js";
+import quizRoutes from "./src/routes/quizRoutes.js";
+import resultRoutes from "./src/routes/resultRoutes.js";
 import cors from "cors";
 
 
@@ -13,6 +15,8 @@ const PORT = process.env.PORT || 3000;
 
 // Routes
 app.use('/api/users', userRoutes);
+app.use('/api/quizzes', quizRoutes);
+app.use('/api/results', resultRoutes);
 
 
 app.listen(PORT, () => {
