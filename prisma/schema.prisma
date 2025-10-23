@@ -15,11 +15,51 @@ datasource db {
 
 
 model User {
-  id                Int                  @id @default(autoincrement()) // Primary key
-  username          String               @unique // Unique username
-  email             String               @unique // unique email
-  password          String
-  score             Int                  @default(0)
-  createdAt         DateTime             @default(now())
+  id          Int       @id @default(autoincrement())
+  username    String    @unique
+  email       String    @unique
+  password    String
+  score       Int       @default(0)
+  createdAt   DateTime  @default(now())
+  results     Result[]
+}
+
+model Quiz {
+  id          Int        @id @default(autoincrement())
+  title       String
+  category    String
+  createdAt   DateTime   @default(now())
+  questions   Question[]
+  results     Result[]
+}
+
+model Question {
+  id          Int      @id @default(autoincrement())
+  text        String
+  difficulty  String    // "easy" | "medium" | "hard"
+  quizId      Int
+  quiz        Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  options     Option[]
+}
+
+model Option {
+  id          Int      @id @default(autoincrement())
+  description String
+  isTrue      Boolean  @default(false)
+  questionId  Int
+  question    Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+}
+
+model Result {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  quizId      Int
+  score       Int
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quiz        Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([quizId])
 }
 
